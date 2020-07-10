@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-//import Cookies from 'js-cookie';
-import Data from "./Data";
+import Cookies from 'js-cookie';
+import Data from './Data';
 
 const Context = React.createContext(); 
 
 export class Provider extends Component {
 
 state = {
-  authenticatedUser: null
+  authenticatedUser: Cookies.getJSON('authenticatedUser') || null
 };
 
 constructor(){
@@ -34,21 +34,28 @@ constructor(){
   }
 
   signIn = async (emailAddress, password) => {
-    const user = await this.data.getUser(emailAddress, password);
+    const user = await this.data.getUser(emailAddress, password); 
      if (user !== null) {
        this.setState(() => {
          return {
            authenticatedUser: user,
         };
-      });
-    
+      }); 
+      // Set cookie, 
+      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
     }
     return user;
   }
 
   signOut = () => {
-    this.setState({ authenticatedUser: null });
+    this.setState(() => {
+      return{
+        authenticatedUser: null,
+      };
+    });
+    Cookies.remove('authenticatedUser');
   }
+
 
 } 
   

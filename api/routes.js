@@ -102,8 +102,6 @@ function asyncHandler(cb){
          return value;
       }
     })
-    
-    
   ], asyncHandler(async(req, res) => {
 
     const errors = validationResult(req);

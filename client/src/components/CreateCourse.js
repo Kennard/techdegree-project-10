@@ -8,16 +8,14 @@ export default class CreateCourse extends Component{
     description: '',
     estimatedTime: '',
     materialsNeeded: '',
-    emailAddress: '',
-    password: '',
     errors: [],
   }
 
    render(){ 
     const { context } = this.props;
     const authUser = context.authenticatedUser;
-
-    const {
+   
+     const {
       title,
       description,
       estimatedTime,
@@ -47,7 +45,6 @@ export default class CreateCourse extends Component{
                     className="input-title course--title--input" 
                     placeholder="Course title..." 
                     value={title} />
-
                   <p>By { authUser.firstName } { authUser.lastName }</p>
                   <div className="course--description">
                     <textarea id="description" name="description" onChange={this.change} placeholder="Course description..." value={description} />
@@ -85,11 +82,15 @@ export default class CreateCourse extends Component{
         });
       }
 
-    submit = () => {
+    submit = () => { 
         const { context } = this.props;
+
         const authUser = context.authenticatedUser;
         const authUserId = authUser.id;
-          
+        
+        const  emailAddress  = authUser.emailAddress;
+        const  password  = authUser.password;
+
         const {
             title,
             description,
@@ -97,28 +98,26 @@ export default class CreateCourse extends Component{
             materialsNeeded,
           } = this.state;
     
-        
           const course = {
             title,
             description,
             estimatedTime,
             materialsNeeded,
             authUserId,
-          };
-          
+          };         
 
-            context.data.createCourse(course, emailAddress, password)
-            .then( errors => {
-                if (errors.length) {
-                  this.setState({ errors });
-                }else {
-                  console.log(`${title} has been successfully added!`);
-                  this.props.history.push('/courses');
-                }
-              }).catch( err => {
-                console.log(err);
-                this.props.history.push('/error');
-              });   
+        context.data.createCourse(course, emailAddress, password)
+        .then( errors => {
+            if(errors.length) {
+              this.setState({ errors });
+            }else {  
+              this.props.history.push('/courses');
+              console.log(`${title} has been successfully added!`);
+            }
+          }).catch( err => {
+              console.log(err);
+              this.props.history.push('/error');
+          });   
          
   
     }
