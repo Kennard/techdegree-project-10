@@ -40,7 +40,7 @@ export default class UserSignUp extends Component {
                     <input id="lastName" name="lastName" value={lastName} onChange={this.change} type="text" placeholder="Last Name"  />
                     <input id="emailAddress" name="emailAddress" value={emailAddress} onChange={this.change} type="text" placeholder="Email Address"  />
                     <input id="password" name="password" value={password} onChange={this.change} type="password" placeholder="Password"  />
-                    <input id="confirmpassword" name="confirmpassword" value={confirmpassword} onChange={this.change} type="confirmpassword" placeholder="Confirm Password" />
+                    <input id="confirmpassword" name="confirmpassword" value={confirmpassword} onChange={this.change} type="password" placeholder="Confirm Password" />
                   </React.Fragment>
                 )} /> 
               <p>&nbsp;</p>
@@ -72,33 +72,45 @@ export default class UserSignUp extends Component {
         confirmpassword,
       } = this.state;
 
+             
+  if(password === confirmpassword){
+
       const user = {
-        firstName,
-        lastName,
-        emailAddress,
-        password,
-        confirmpassword,
-      };
+            firstName,
+            lastName,
+            emailAddress,
+            password,
+            confirmpassword,
+          };
+              
+          context.data.createUser(user)
+          .then( errors => {
+              if (errors.length) {
+                this.setState({ errors });
+              }
+              else { 
+                context.actions.signIn(emailAddress,password)
+                .then( () => {
+                  this.props.history.push('/');
+                })
+                console.log(`${firstName} is successfully signed up and authenticated!`);
+              }
 
+            })
+            .catch( err => {
+              console.log(err);
+              this.props.history.push('/error');
+            });
 
-    context.data.createUser(user)
-      .then( errors => {
-        if (errors.length) {
-          this.setState({ errors });
-        }else { 
-          context.actions.signIn(emailAddress,password)
-          .then( () => {
-            this.props.history.push('/');
-          })
-          console.log(`${firstName} is successfully signed up and authenticated!`);
-        }
-      })
-      .catch( err => {
-          console.log(err);
-          this.props.history.push('/error');
-      });
+          } else {
+            this.setState(() => {
+              return { errors: [ 'Passwords did not match! Please enter the same password.' ] };
+            });  
+          }
+         
 
     }
+
 
       cancel = () => {
         this.props.history.push('/');

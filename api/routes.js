@@ -88,20 +88,7 @@ function asyncHandler(cb){
     .withMessage('Email must be a valid "email address" '),
   check('password')
     .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('Please provide a value for "password"'),
-  check('confirmpassword')
-    .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('Please re-enter your "password"')
-    .custom((value, {req}) => {
-       if(value === ""){
-         return true;
-       }
-       if(value !== req.body.password){
-        throw new Error('Passwords do not match!');
-      }else {
-         return value;
-      }
-    })
+    .withMessage('Please provide a value for "password"')
   ], asyncHandler(async(req, res) => {
 
     const errors = validationResult(req);
@@ -115,15 +102,12 @@ function asyncHandler(cb){
 
   // Hash the new 
   const password = bcryptjs.hashSync(req.body.password);
-  const confirmpassword = bcryptjs.hashSync(req.body.confirmpassword);
-
 
   const user = await models.User.create({    
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       emailAddress: req.body.emailAddress,
-      password,
-      confirmpassword
+      password
     });
      
 

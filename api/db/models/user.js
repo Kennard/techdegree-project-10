@@ -30,11 +30,6 @@ module.exports = (sequelize) => {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      confirmpassword: {
-        type: Sequelize.STRING,
-        after: "password",
-        allowNull: false,
       }
     }, { sequelize });
   
