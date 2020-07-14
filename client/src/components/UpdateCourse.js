@@ -9,7 +9,6 @@ export default class UpdateCourse extends Component{
     estimatedTime: '',
     materialsNeeded: '',
     errors: [],
-    course:''
   }
 
   componentDidMount(){
@@ -20,7 +19,10 @@ export default class UpdateCourse extends Component{
     context.data.getCourse(path)
       .then(course => {
         this.setState({ 
-          course: course.course,
+         title: course.course.title,
+         description:course.course.description,
+         estimatedTime: course.course.estimatedTime,
+         materialsNeeded: course.course.materialsNeeded
         })
       })
       .catch(err => {
@@ -34,7 +36,7 @@ export default class UpdateCourse extends Component{
     const { context } = this.props;  
     const authUser = context.authenticatedUser;
       
-    const course = this.state.course;
+    //const course = this.state.course;
       
      const {
       title,
@@ -44,9 +46,8 @@ export default class UpdateCourse extends Component{
       errors
     } = this.state;
  
-    console.log(course);
-
-
+    
+    
     return (
           <div className="bounds course--detail">
             <h1>Update Course</h1>    
@@ -65,15 +66,16 @@ export default class UpdateCourse extends Component{
                       <input id="title" 
                         name="title" 
                         type="text" 
+                        onChange={this.change}
                         
                         className="input-title course--title--input" 
                         placeholder="Course title..." 
-                         onChange={this.change} value={`${course.title}`} />
+                        value={title} />
                       
                      <p>By {authUser.firstName} {authUser.lastName}</p> 
                     
                       <div className="course--description">
-                        <textarea id="description" name="description"  value={course.description} placeholder="Course description..."  onChange={this.change} />  
+                        <textarea id="description" name="description"  value={description} placeholder="Course description..."  onChange={this.change} />  
                       </div>
                     </div>
                   </div>
@@ -82,12 +84,12 @@ export default class UpdateCourse extends Component{
                       <ul className="course--stats--list"> 
                         <li>
                           <h4>Estimated Time</h4>
-                         <input id="estimatedTime" name="estimatedTime"  value={course.estimatedTime} type="text" className="course--time--input"
+                         <input id="estimatedTime" name="estimatedTime"  value={estimatedTime} type="text" className="course--time--input"
                             placeholder="Hours" onChange={this.change} /> 
                         </li>
                         <li className="course--stats--list--item">
                             <h4>Materials Needed</h4>
-                        <textarea id="materialsNeeded" name="materialsNeeded"  value={course.materialsNeeded} placeholder="List materials..." onChange={this.change}  />
+                        <textarea id="materialsNeeded" name="materialsNeeded"  value={materialsNeeded} placeholder="List materials..." onChange={this.change}  />
                         </li>
                         </ul>
                       </div>
