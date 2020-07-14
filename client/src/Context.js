@@ -36,6 +36,7 @@ constructor(){
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password); 
      if (user !== null) {
+       user.password = password;
        this.setState(() => {
          return {
            authenticatedUser: user,
@@ -56,7 +57,7 @@ constructor(){
     Cookies.remove('authenticatedUser');
   }
 
-
+  
 } 
   
 export const Consumer = Context.Consumer;

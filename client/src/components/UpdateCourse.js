@@ -1,89 +1,158 @@
 import React, { Component } from 'react';
+import Form from './Form';
 
 export default class UpdateCourse extends Component{
- // Initalize state. Pass in props to use this.props Set local state objects to empty arrays 
- constructor(props){
-    super(props);
-    this.state = {
-      updateCourse: [],
-      owner: []
-    };
+
+  state = {
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    errors: [],
+    course:''
   }
 
-// Use compoenentDidMount to load data from our API
   componentDidMount(){
+    const { context } = this.props;
+    const id = this.props.match.params.id;
+    const path = `/courses/${id}`;
 
-    const id =  this.props.match.params.id; 
-
-    fetch(`http://localhost:5000/api/courses/${id}`)
-    .then(response => response.json())
-    .then(responseData => {
-      this.setState({ 
-        updateCourse: responseData.course,
-         owner: responseData.course.owner
+    context.data.getCourse(path)
+      .then(course => {
+        this.setState({ 
+          course: course.course,
+        })
       })
-    })
-    .catch(error  => {
-      console.log('Error fetching and parsing data', error);
-    });
+      .catch(err => {
+        console.log(err);
+        this.props.history.push('/error');
+      });
 
-  }
+    }
 
   render() {
+    const { context } = this.props;  
+    const authUser = context.authenticatedUser;
+      
+    const course = this.state.course;
+      
+     const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      errors
+    } = this.state;
+ 
+    console.log(course);
 
-   const update = this.state.updateCourse;
-   const owner = this.state.owner;
-
-
-
-    console.log(update);
 
     return (
-        <React.Fragment>
-          <hr></hr>
           <div className="bounds course--detail">
             <h1>Update Course</h1>    
-            <div>
-             <form>
-                <div className="grid-66">
-                <div className="course--header">
-                    <h4 className="course--label">Course</h4>
-                    <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
-                         value={`${update.title}`} 
-                        />
-                        </div>
-                     <p>By {owner.firstName} {owner.lastName}</p> 
-                </div>
-                <div className="course--description">
-                    <div>
-                    { <textarea id="description" name="description" className="" placeholder="Course description..." value={update.description} />  }
+             
+             <Form 
+                cancel={this.cancel}
+                errors={errors} 
+                submit={this.submit}
+                submitButtonText="Update Course"
+                elements={()=> ( 
+                  <React.Fragment> 
+                   <div className="grid-66">
+                    <div className="course--header">
+                      <h4 className="course--label">Course</h4>
+                      
+                      <input id="title" 
+                        name="title" 
+                        type="text" 
+                        
+                        className="input-title course--title--input" 
+                        placeholder="Course title..." 
+                         onChange={this.change} value={`${course.title}`} />
+                      
+                     <p>By {authUser.firstName} {authUser.lastName}</p> 
+                    
+                      <div className="course--description">
+                        <textarea id="description" name="description"  value={course.description} placeholder="Course description..."  onChange={this.change} />  
+                      </div>
                     </div>
-                </div>
-                </div>
-                <div className="grid-25 grid-right">
-                <div className="course--stats">
-                    <ul className="course--stats--list">
-                    <li className="course--stats--list--item">
-                        <h4>Estimated Time</h4>
-                        <div>
-                         <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input"
-                            placeholder="Hours" value={`${update.estimatedTime}`} /> </div>
-                    </li>
-                    <li className="course--stats--list--item">
-                        <h4>Materials Needed</h4>
-                        <div><textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..."  value={update.materialsNeeded}  /></div>
-                    </li>
-                    </ul>
-                </div>
-                </div>
-                <div className="grid-100 pad-bottom">
-                    <button className="button" type="submit">Update Course</button>
-                    <button className="button button-secondary" onclick="event.preventDefault(); location.href='course-detail.html';">Cancel</button>
-                </div>                     
-             </form>
-            </div>
-          </div>   
-        </React.Fragment>
+                  </div>
+                  <div className="grid-25 grid-right">
+                    <div className="course--stats">
+                      <ul className="course--stats--list"> 
+                        <li>
+                          <h4>Estimated Time</h4>
+                         <input id="estimatedTime" name="estimatedTime"  value={course.estimatedTime} type="text" className="course--time--input"
+                            placeholder="Hours" onChange={this.change} /> 
+                        </li>
+                        <li className="course--stats--list--item">
+                            <h4>Materials Needed</h4>
+                        <textarea id="materialsNeeded" name="materialsNeeded"  value={course.materialsNeeded} placeholder="List materials..." onChange={this.change}  />
+                        </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </React.Fragment>
+                )} />
+          </div>  
     );
   }
+
+  change = (event) => {
+    
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  }
+
+  submit = () => { 
+    
+    const { context } = this.props;
+    const authUser = context.authenticatedUser;
+
+    const  emailAddress  = authUser.emailAddress;
+    const  password  = authUser.password;
+
+    const {
+        title,  
+        description, 
+        estimatedTime, 
+        materialsNeeded,
+      } = this.state;
+
+      const course = {
+        title, 
+        description, 
+        estimatedTime, 
+        materialsNeeded
+      };
+ 
+    const id = this.props.match.params.id;
+    const path = `/courses/${id}/update`;
+
+    context.data.updateCourse(path, course, emailAddress, password)
+    .then( errors => {
+        if(errors.length) {
+          this.setState({ errors });
+        }else {  
+          this.props.history.push('/');
+          console.log(`${title} has been successfully added!`);
+        }
+      })
+      .catch(err => {
+          console.log(err);
+          this.props.history.push('/error');
+      });   
+     
+}
+
+  cancel = () => {
+    this.props.history.push('/');
+  }
+
 } 

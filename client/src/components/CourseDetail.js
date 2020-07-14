@@ -3,57 +3,51 @@ import { Link } from 'react-router-dom';
 
 export default class CourseDetail extends Component {
 
-   // Initalize state. Pass in props to use this.props Set local state objects to empty arrays 
-    constructor(props){
-        super(props);
-        this.state = {
-         course: [],
-         owner: []
-        };
+      state ={
+        course: '',
+        owner: '',
       }
-     
+      
+        componentDidMount(){
+         const { context } = this.props;
+         const id = this.props.match.params.id;
+         const path = `/courses/${id}`;
 
-    // Use compoenentDidMount to load data from our API
-     componentDidMount(){
-        const id =  this.props.match.params.id; 
-
-        fetch(`http://localhost:5000/api/courses/${id}`, {
-          method: 'GET', 
-          headers: {
-          'Content-Type': 'application/json; charset=utf-8'}
-        })
-        .then(response => response.json())
-        .then(responseData => {
-          this.setState({ 
-            course: responseData.course,
-            owner: responseData.course.owner
-          })
-        })
-        .catch(error  => {
-          console.log('Error fetching and parsing data', error);
-        });
-
-      }
+         context.data.getCourse(path)
+           .then(course => {
+             this.setState({ 
+               course: course.course,
+               owner: course.course.owner
+             })
+           })
+           .catch(err => {
+             console.log(err);
+             this.props.history.push('/error');
+           });
+   
+         }
+       
 
     render() {
-        // Assign variable to our objects that hold our data 
-        const course = this.state.course;
-        const owner = this.state.owner;
+      const course = this.state.course;
+      const owner = this.state.owner;
+    
 
-        const { context } = this.props;
-        const authUser = context.authenticatedUser;
-        const ownerId = this.state.owner.id;
+      const { context } = this.props;
+      const auth = context.authenticatedUser;
+      const ownerId = owner.id;
 
-        return (  
+   
+      return (  
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
                         <div className="grid-100">
-                        {authUser && authUser.id === ownerId ? 
+                       {auth && auth.id === ownerId ? 
                             <React.Fragment>  
                             <span>
                                 <Link className="button" to={`${course.id}/update`} >Update Course</Link>
-                                <Link className="button" to={`${course.id}`}>Delete Course</Link>
+                                <Link className="button" to={`${course.id}`} onClick={this.deleteId}>Delete Course </Link>
                                 <Link className="button button-secondary" to="/">Return to List</Link>
                             </span>
                             </React.Fragment> 
@@ -71,12 +65,12 @@ export default class CourseDetail extends Component {
                     <div className="grid-66">
                         <div className="course--header">
                             <h4 className="course--label">Course</h4>
-                            <h3 className="course--title"> { course.title } </h3>
+                            <h3 className="course--title"> {course.title } </h3>
                             <p>By {owner.firstName} {owner.lastName} </p>
                         </div>
                         <div class="course--description"> 
                           <p>                
-                            { this.state.course.description } 
+                            { course.description } 
                          </p>
                         </div>
                     </div>
@@ -101,5 +95,38 @@ export default class CourseDetail extends Component {
           </div>     
         );
       }
+
+  
+
+      deleteId = (event) => { 
+        event.preventDefault();
+
+        const { context } = this.props;
+        const authUser = context.authenticatedUser;
+        
+        const  emailAddress  = authUser.emailAddress;
+        const  password  = authUser.password;
+
+          
+        const id = this.props.match.params.id;
+        const path = `/courses/${id}`;
+    
+        context.data.deleteCourse(path, emailAddress, password)
+        .then( errors => {
+            if(errors.length) {
+              this.setState({ errors });
+            }else {  
+              this.props.history.push('/');
+              console.log(`has been successfully deleted!`);
+            }
+          })
+          .catch(err => {
+              console.log(err);
+              this.props.history.push('/error');
+          });   
+
+      }
+
+
   }
 

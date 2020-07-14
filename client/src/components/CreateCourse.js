@@ -104,22 +104,23 @@ export default class CreateCourse extends Component{
             estimatedTime,
             materialsNeeded,
             authUserId,
-          };         
+          };
+         
 
         context.data.createCourse(course, emailAddress, password)
         .then( errors => {
             if(errors.length) {
               this.setState({ errors });
             }else {  
-              this.props.history.push('/courses');
+              this.props.history.push('/');
               console.log(`${title} has been successfully added!`);
             }
-          }).catch( err => {
+          })
+          .catch(err => {
               console.log(err);
               this.props.history.push('/error');
           });   
-         
-  
+
     }
 
 

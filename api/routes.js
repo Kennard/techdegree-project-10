@@ -127,7 +127,7 @@ router.get('/courses', asyncHandler(async(req, res) => {
       {
         model: models.User,
         as: 'owner',
-        attributes: { exclude: ['createdAt', 'updatedAt', 'password', 'confirmpassword'] },
+        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
       }
     ],
   });
@@ -147,7 +147,7 @@ router.get('/courses/:id', asyncHandler(async(req, res) => {
         {
           model: models.User,
           as: 'owner',
-          attributes: { exclude: ['createdAt', 'updatedAt', 'password','confirmpassword'] },
+          attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
         }
       ],
   });
@@ -183,15 +183,17 @@ router.post('/courses', [
       description: req.body.description,
       estimatedTime: req.body.estimatedTime,
       materialsNeeded: req.body.materialsNeeded,
-      userId: req.body.userId
+      userId: req.currentUser.id
     });
 
+  const id = course.id;  
+
   // Set the location header to the course URI and set status to 201 Created and end the response.
-   res.location('/courses/'+ course.id).status(201).end(); 
+   res.location(`/courses/${id}`).status(201).end(); 
 }));
 
 // Send a PUT request to Update a course and return no content.
-router.put('/courses/:id',[
+router.put('/courses/:id/update',[
   check('title')
     .exists({ checkNull: true, checkFalsy: true })
     .withMessage('Please provide a value for "title"'),
@@ -228,7 +230,6 @@ router.put('/courses/:id',[
 
 // Send a DELETE request to delete a course and return no content.
 router.delete('/courses/:id', authenticateUser, asyncHandler(async(req, res) => { 
-  
   const course = await models.Course.findByPk(req.params.id);
   const user = req.currentUser;
   

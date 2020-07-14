@@ -4,31 +4,28 @@ import { Link } from 'react-router-dom';
 
 export default class Courses extends Component {
  
-    constructor(props){
-        super(props);
-        this.state = {
-         courses: [],
-        };        
-      }
+   state ={
+     courses: [],
+   }
     
      componentDidMount(){
-        fetch('http://localhost:5000/api/courses')
-        .then(response => response.json())
-        .then(responseData => {
+      const { context } = this.props;
+      context.data.getCourses()
+        .then(courses => {
           this.setState({ 
-            courses: responseData
+            courses
           })
         })
-        .catch(error  => {
-          console.log('Error fetching and parsing data', error);
+        .catch(err => {
+          console.log(err);
+          this.props.history.push('/error');
         });
 
       }
 
-
     render() {
-      const results = this.state.courses;
-      let allcourses = results.map(course => 
+      const courses = this.state.courses;
+      let allcourses = courses.map(course => 
           <div className="grid-33" key={course.id} >
               <Link className="course--module course--link" to={`/courses/${course.id}`} >
                 <h4 className="course--label">Course</h4>
@@ -41,7 +38,7 @@ export default class Courses extends Component {
         <React.Fragment>
           <hr></hr>
             <div className="bounds">
-                { allcourses }
+               { allcourses }
         
                 <div className="grid-33">
                     <Link className="course--module course--add--module" to="courses/create">

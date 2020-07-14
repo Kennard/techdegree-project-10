@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
-      }
+      },
     }, { sequelize });
   
     User.associate = (models) => {
