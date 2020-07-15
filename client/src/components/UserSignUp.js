@@ -72,43 +72,37 @@ export default class UserSignUp extends Component {
         confirmpassword,
       } = this.state;
 
+  
              
-  if(password === confirmpassword){
+  if(password === confirmpassword){ 
+    console.log("match")
 
-      const user = {
-            firstName,
-            lastName,
-            emailAddress,
-            password,
-            confirmpassword,
-          };
+  } else {
+        this.setState(() => {
+          return { errors: [ 'Passwords did not match! Please enter the same password.' ] };
+        });  
+   }
+
+        const user = {
+              firstName, lastName, emailAddress, password
+            };
               
           context.data.createUser(user)
-          .then( errors => {
+            .then( errors => {
               if (errors.length) {
                 this.setState({ errors });
-              }
-              else { 
+              }else { 
                 context.actions.signIn(emailAddress,password)
-                .then( () => {
+                .then(() => {
                   this.props.history.push('/');
-                })
+                });
                 console.log(`${firstName} is successfully signed up and authenticated!`);
               }
-
             })
-            .catch( err => {
+            .catch(err => {
               console.log(err);
               this.props.history.push('/error');
             });
-
-          } else {
-            this.setState(() => {
-              return { errors: [ 'Passwords did not match! Please enter the same password.' ] };
-            });  
-          }
-         
-
     }
 
 

@@ -35,9 +35,7 @@ export default class UpdateCourse extends Component{
   render() {
     const { context } = this.props;  
     const authUser = context.authenticatedUser;
-      
-    //const course = this.state.course;
-      
+  
      const {
       title,
       description,
@@ -46,8 +44,7 @@ export default class UpdateCourse extends Component{
       errors
     } = this.state;
  
-    
-    
+
     return (
           <div className="bounds course--detail">
             <h1>Update Course</h1>    
@@ -67,7 +64,6 @@ export default class UpdateCourse extends Component{
                         name="title" 
                         type="text" 
                         onChange={this.change}
-                        
                         className="input-title course--title--input" 
                         placeholder="Course title..." 
                         value={title} />

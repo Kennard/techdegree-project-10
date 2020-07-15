@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 export default class CourseDetail extends Component {
 
@@ -69,9 +70,9 @@ export default class CourseDetail extends Component {
                             <p>By {owner.firstName} {owner.lastName} </p>
                         </div>
                         <div class="course--description"> 
-                          <p>                
+                          <ReactMarkdown>                
                             { course.description } 
-                         </p>
+                         </ReactMarkdown>
                         </div>
                     </div>
                     <div className="grid-25 grid-right">
@@ -83,9 +84,9 @@ export default class CourseDetail extends Component {
                                 </li>
                                 <li className="course--stats--list--item">
                                     <h4>Materials Needed</h4>
-                                    <ul>
-                                        <li>{course.materialsNeeded}</li>
-                                    </ul>
+                                        <ReactMarkdown> 
+                                         {course.materialsNeeded} 
+                                        </ReactMarkdown>    
                                 </li>
                             </ul>
                         </div>
