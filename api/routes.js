@@ -109,7 +109,8 @@ function asyncHandler(cb){
       emailAddress: req.body.emailAddress,
       password
     });
-     
+
+    console.log(user);
 
    // Set the status to 201 Created and end the response.
   res.location('/').status(201).end(); 

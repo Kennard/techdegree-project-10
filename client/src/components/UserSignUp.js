@@ -61,7 +61,7 @@ export default class UserSignUp extends Component {
       });
     }
 
-    submit = () => {
+  submit = () => {
       const { context } = this.props;
         
       const {
@@ -72,39 +72,38 @@ export default class UserSignUp extends Component {
         confirmpassword,
       } = this.state;
 
-  
              
-  if(password === confirmpassword){ 
-    console.log("match")
+    if(password === confirmpassword){
 
-  } else {
-        this.setState(() => {
-          return { errors: [ 'Passwords did not match! Please enter the same password.' ] };
-        });  
-   }
-
-        const user = {
-              firstName, lastName, emailAddress, password
-            };
+      const user = {
+            firstName, lastName, emailAddress, password
+          };
               
           context.data.createUser(user)
-            .then( errors => {
+          .then( errors => {
               if (errors.length) {
                 this.setState({ errors });
-              }else { 
-                context.actions.signIn(emailAddress,password)
+              }
+              else { 
+                context.actions.signIn(emailAddress, password)
                 .then(() => {
                   this.props.history.push('/');
-                });
+                })
                 console.log(`${firstName} is successfully signed up and authenticated!`);
               }
+
             })
-            .catch(err => {
+            .catch( err => {
               console.log(err);
               this.props.history.push('/error');
             });
-    }
 
+          } else {
+            this.setState(() => {
+              return { errors: [ 'Passwords did not match! Please enter the same password.' ] };
+            });  
+          }
+        }
 
       cancel = () => {
         this.props.history.push('/');
