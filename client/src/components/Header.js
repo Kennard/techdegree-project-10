@@ -9,9 +9,9 @@ export default ({ context }) => {
             <div className="bounds">
                 <h1 className="header--logo">Courses</h1>
                 <nav>
-                    {authUser ? 
+                    {authUser ?  
                         <React.Fragment>
-                            <span>Welcome, {authUser.firstName}!</span>
+                            <span>Welcome, {authUser.firstName} {authUser.lastName}!</span>
                             <Link to="/signout">Sign Out</Link>
                         </React.Fragment>
                         :
