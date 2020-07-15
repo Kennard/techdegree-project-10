@@ -23,7 +23,7 @@ export default class CourseDetail extends Component {
            })
            .catch(err => {
              console.log(err);
-             this.props.history.push('/error');
+             this.props.history.push('/notfound');
            });
    
          }
