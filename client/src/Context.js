@@ -50,9 +50,8 @@ constructor(){
 
   signOut = () => {
     this.setState(() => {
-      return{
-        authenticatedUser: null,
-      };
+      return{   authenticatedUser: null,
+        };
     });
     Cookies.remove('authenticatedUser');
   }
