@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from './Form';
 
+// Stateful Component to Update a new courses using Context
 export default class UpdateCourse extends Component{
 
   state = {
@@ -96,8 +97,8 @@ export default class UpdateCourse extends Component{
     );
   }
 
+  //Load form data on change updates const values state
   change = (event) => {
-    
     const name = event.target.name;
     const value = event.target.value;
 
@@ -107,7 +108,7 @@ export default class UpdateCourse extends Component{
       };
     });
   }
-
+  // Submit user data passed down through Context to Update a Course
   submit = () => { 
     
     const { context } = this.props;

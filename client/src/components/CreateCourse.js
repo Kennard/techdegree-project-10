@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from './Form';
 
+// Stateful Component to Create a new courses using Context after user is authenticated
 export default class CreateCourse extends Component{ 
   
   state = {
@@ -71,7 +72,8 @@ export default class CreateCourse extends Component{
       );
     }
 
-      change = (event) => {
+    //Load form data on change updates const values state
+    change = (event) => {
         const name = event.target.name;
         const value = event.target.value;
     
@@ -82,6 +84,7 @@ export default class CreateCourse extends Component{
         });
       }
 
+    // Submit user data passed down through Context to Create new Course
     submit = () => { 
         const { context } = this.props;
 

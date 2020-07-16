@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Stateless Components to display top menu bar. Adds athenticated user, passed down through Context
 export default ({ context }) => {
     const authUser = context.authenticatedUser;
 

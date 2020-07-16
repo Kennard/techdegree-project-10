@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
 
+// UserSign In stateful Component to allow a user to sign via the sign in method
 export default class UserSignIn extends Component { 
     state = {
         emailAddress: '',
@@ -36,7 +37,8 @@ export default class UserSignIn extends Component {
     
     );
   }
-
+ 
+  //Load form data on change updates const values state
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -47,10 +49,13 @@ export default class UserSignIn extends Component {
       };
     });
   }
-
+  // Submit user data passed down through Context 
+  // Add additional functionality to user sign in - return user to previous page if the
+  // Route or page they tried to visit was a private route requiring athentication
   submit = () => {
     const { context } = this.props;
     const { from } = this.props.location.state || { from: { pathname: '/'} };
+    
     const emailAddress = this.state.emailAddress;
     const password  = this.state.password;
     

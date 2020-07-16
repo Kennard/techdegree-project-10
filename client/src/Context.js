@@ -32,7 +32,7 @@ constructor(){
       </Context.Provider>  
     );
   }
-
+  // Sign in async/await call to authenticate user
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password); 
      if (user !== null) {
@@ -47,10 +47,11 @@ constructor(){
     }
     return user;
   }
-
+ // Sign out authenticated user
   signOut = () => {
     this.setState(() => {
-      return{   authenticatedUser: null,
+      return{   
+        authenticatedUser: null,
         };
     });
     Cookies.remove('authenticatedUser');

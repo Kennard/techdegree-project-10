@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
+// Course Detail stateful Component to retrieves a course based on id with Context
 export default class CourseDetail extends Component {
 
       state ={
@@ -98,7 +99,9 @@ export default class CourseDetail extends Component {
       }
 
   
-
+      // Create a new method like submit to execute the delete course function 
+      // that return a promise. Set event to OnClick to execute delete method 
+      // using Context to submit values from state. 
       deleteId = (event) => { 
         event.preventDefault();
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
 
-
+// Stateful Component to create a new user using Context
 export default class UserSignUp extends Component { 
 
   state = {
@@ -50,6 +50,7 @@ export default class UserSignUp extends Component {
           );
     }
 
+    //Load form data on change updates const values state
     change = (event) => {
       const name = event.target.name;
       const value = event.target.value;
@@ -60,7 +61,7 @@ export default class UserSignUp extends Component {
         };
       });
     }
-
+  // Submit user data via POST request and sign the user in via Sign in method passed from Context
   submit = () => {
       const { context } = this.props;
         

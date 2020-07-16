@@ -49,8 +49,6 @@ export default () => (
             <Route component={NotFound} />
             
         </Switch>
-                    
-        
         </div>
       </Router>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Form component handles form actions for submit and cancel buttons as well as renders errors from the REST API routes. 
 export default (props) => {
   const {
     cancel,
