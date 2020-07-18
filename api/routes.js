@@ -126,7 +126,7 @@ router.get('/courses', asyncHandler(async(req, res) => {
     attributes: { exclude: ['createdAt', 'updatedAt'] },
     include: [
       {
-        model: models.User,
+        model: models.Users,
         as: 'owner',
         attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
       }
@@ -136,7 +136,6 @@ router.get('/courses', asyncHandler(async(req, res) => {
     res.status(200).json(courses);
   }else{
     res.status(404).json({message: "Does not exist" }); 
-
   }
 }));
 

@@ -10,33 +10,45 @@ export default class UpdateCourse extends Component{
     estimatedTime: '',
     materialsNeeded: '',
     errors: [],
+    owner: '',
   }
+
+ 
 
   componentDidMount(){
     const { context } = this.props;
     const id = this.props.match.params.id;
     const path = `/courses/${id}`;
 
+    const authUser = context.authenticatedUser;
+    const authid = authUser.id;
+  
     context.data.getCourse(path)
       .then(course => {
         this.setState({ 
          title: course.course.title,
          description:course.course.description,
          estimatedTime: course.course.estimatedTime,
-         materialsNeeded: course.course.materialsNeeded
+         materialsNeeded: course.course.materialsNeeded,
+         owner: course.course.userId
         })
+        if(this.state.owner !== authid){
+          this.props.history.push('/forbidden');
+        }
       })
       .catch(err => {
         console.log(err);
         this.props.history.push('/notfound');
       });
 
-    }
+
+
+   }
 
   render() {
     const { context } = this.props;  
     const authUser = context.authenticatedUser;
-  
+
      const {
       title,
       description,
@@ -142,6 +154,7 @@ export default class UpdateCourse extends Component{
           this.props.history.push('/');
           console.log(`${title} has been successfully added!`);
         }
+
       })
       .catch(err => {
           console.log(err);
@@ -149,9 +162,12 @@ export default class UpdateCourse extends Component{
       });   
      
 }
+ // If user doesn't update the course the Cancel method will return 
+ // the user to the route we push onto the history stack location property
 
   cancel = () => {
-    this.props.history.push('/');
+    const id = this.props.match.params.id;
+    this.props.history.push(`/courses/${id}`);
   }
 
 } 

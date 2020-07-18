@@ -15,12 +15,14 @@ export default class Courses extends Component {
           this.setState({ 
             courses
           })
-        })
-        .catch(err => {
-          console.log(err);
-          this.props.history.push('/notfound');
+         
+         })
+        .catch(err => {  
+         
+             console.error(err);
+             //this.props.history.push('/notfound');
         });
-
+      
       }
 
     render() {

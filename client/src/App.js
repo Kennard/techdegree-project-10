@@ -9,7 +9,7 @@ import Header from './components/Header';
 import Courses from './components/Courses';
 import NotFound from './components/NotFound';
 import Forbidden from './components/Forbidden';
-import Error from './components/Error';
+import UnhandledError from './components/UnhandledError';
 import CourseDetail from './components/CourseDetail';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
@@ -45,7 +45,7 @@ export default () => (
             <Route path="/signout" component={ UserSignOutWithContext } />
             
             <Route exact path="/forbidden" component={Forbidden} />
-            <Route exact path="/error" component={Error} />
+            <Route exact path="/error" component={UnhandledError} />
             <Route component={NotFound} />
             
         </Switch>
