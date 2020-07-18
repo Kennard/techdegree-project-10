@@ -126,7 +126,7 @@ router.get('/courses', asyncHandler(async(req, res) => {
     attributes: { exclude: ['createdAt', 'updatedAt'] },
     include: [
       {
-        model: models.Users,
+        model: models.User,
         as: 'owner',
         attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
       }
