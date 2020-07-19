@@ -2,9 +2,10 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Consumer } from './Context';
 
-// The Private route redirects a user to the sign in page if they are not authenticated
-// The redirect also provides a state property to return a user to the page they were on 
-// after they authenticated.
+/** The Private route redirects a user to the sign in page if they are not authenticated
+  * The redirect also provides a state property to return a user to the page they were on 
+  * after they authenticated.
+  */ 
 export default ({ component: Component, ...rest }) => {
   return (
     <Consumer>

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Form from './Form';
 
-// Stateful Component to Create a new courses using Context after user is authenticated
+/**
+ * Create a Course.
+ * @class - stateful component to Create a new courses using data methods and context
+ */
 export default class CreateCourse extends Component{ 
   
   state = {

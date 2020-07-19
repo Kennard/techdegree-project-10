@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
-
-// Stateful Component to create a new user using Context
+ 
+/**
+ * Stateful Component to create a new user using context
+ * @class - stateful component to render a sign up form 
+ */
 export default class UserSignUp extends Component { 
 
   state = {

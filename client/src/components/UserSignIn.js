@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
 
-// UserSign In stateful Component to allow a user to sign via the sign in method
+/**
+ * UserSign In stateful Component to allow a user to sign via the sign in method
+ * @class - stateful component to render a sign in form 
+ */
 export default class UserSignIn extends Component { 
     state = {
         emailAddress: '',

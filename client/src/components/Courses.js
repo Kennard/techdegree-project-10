@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-// Course stateful Component to get all the courses using Context
+/**
+ * Retrieves all Courses.
+ * @class - stateful component to retrieve courses using data methods and context
+ */
 export default class Courses extends Component {
  
    state ={

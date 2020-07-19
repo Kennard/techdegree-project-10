@@ -32,7 +32,12 @@ constructor(){
       </Context.Provider>  
     );
   }
-  // Sign in async/await call to authenticate user
+
+  /**
+   * @async
+   * Sign in method call getUser method to authenticate user
+   * returns Authenticated user in context to be used in child compoenents
+   */
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password); 
      if (user !== null) {
@@ -47,7 +52,10 @@ constructor(){
     }
     return user;
   }
- // Sign out authenticated user
+ 
+  /**
+   * Sign out method sets authenticated user state to null
+   */
   signOut = () => {
     this.setState(() => {
       return{   

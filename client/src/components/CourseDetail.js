@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
-// Course Detail stateful Component to retrieves a course based on id with Context
+/**
+ * Provides Course detail via params id.
+ * @class - stateful component to rtrieve courses details using data methods and context
+ */
 export default class CourseDetail extends Component {
 
       state ={

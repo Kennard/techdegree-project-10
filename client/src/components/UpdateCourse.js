@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import Form from './Form';
 
-// Stateful Component to Update a new courses using Context
+/**
+ * Updates a Course.
+ * @class - stateful component to Update a new courses using data methods and context
+ */
+ 
 export default class UpdateCourse extends Component{
 
   state = {
@@ -12,8 +16,6 @@ export default class UpdateCourse extends Component{
     errors: [],
     owner: '',
   }
-
- 
 
   componentDidMount(){
     const { context } = this.props;
