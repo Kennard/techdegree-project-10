@@ -20,10 +20,14 @@ export default class CourseDetail extends Component {
 
          context.data.getCourse(path)
            .then(course => {
+            if(course == null){
+              this.props.history.push('/notfound');
+            }else {
              this.setState({ 
                course: course.course,
                owner: course.course.owner
              })
+            }
            })
            .catch(err => {
              console.log(err);

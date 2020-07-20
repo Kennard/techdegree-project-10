@@ -16,18 +16,19 @@ export default class Courses extends Component {
       context.data.getCourses()
         .then(courses => {
           this.setState({ 
-            courses
-          }) 
+              courses
+            }) 
          })
         .catch(err => {  
-             console.log(err);
+             console.log(err.message);
              this.props.history.push('/error');
         });
       
       }
 
-    render() {
+    render() { 
       const courses = this.state.courses;
+
       let allcourses = courses.map(course => 
           <div className="grid-33" key={course.id} >
               <Link className="course--module course--link" to={`/courses/${course.id}`} >

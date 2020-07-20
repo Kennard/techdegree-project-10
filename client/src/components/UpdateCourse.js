@@ -24,26 +24,30 @@ export default class UpdateCourse extends Component{
 
     const authUser = context.authenticatedUser;
     const authid = authUser.id;
+
   
     context.data.getCourse(path)
       .then(course => {
-        this.setState({ 
-         title: course.course.title,
-         description:course.course.description,
-         estimatedTime: course.course.estimatedTime,
-         materialsNeeded: course.course.materialsNeeded,
-         owner: course.course.userId
-        })
-        if(this.state.owner !== authid){
-          this.props.history.push('/forbidden');
-        }
+        if(course == null){
+          this.props.history.push('/notfound');
+        }else{
+          this.setState({ 
+            title: course.course.title,
+            description:course.course.description,
+            estimatedTime: course.course.estimatedTime,
+            materialsNeeded: course.course.materialsNeeded,
+            owner: course.course.userId
+            })
+          if(this.state.owner !== authid){
+            this.props.history.push('/forbidden');
+          }  
+        }  
+
       })
       .catch(err => {
         console.log(err);
         this.props.history.push('/error');
       });
-
-
 
    }
 
@@ -156,7 +160,6 @@ export default class UpdateCourse extends Component{
           this.props.history.push('/');
           console.log(`${title} has been successfully added!`);
         }
-
       })
       .catch(err => {
           console.log(err);
